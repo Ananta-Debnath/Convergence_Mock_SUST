@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 # ---- build stage ----
+# Bumped 2026-06-25: bust Render's layer cache after monorepo context fix.
 FROM node:20-alpine AS build
 WORKDIR /repo/api
 
