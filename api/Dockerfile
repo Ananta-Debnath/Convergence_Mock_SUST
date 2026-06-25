@@ -2,44 +2,28 @@
 
 # ---- build stage ----
 FROM node:20-alpine AS build
-WORKDIR /repo
-
-# Install workspace deps from the root package.json (workspaces hoist api deps).
-COPY package.json package-lock.json* tsconfig.base.json ./
-COPY api/package.json ./api/package.json
-COPY client/package.json ./client/package.json
-RUN npm install --no-audit --no-fund
-
-# Copy API source + config and build TypeScript -> JS.
-COPY api ./api
 WORKDIR /repo/api
+
+# Copy API package.json first for better layer caching.
+COPY package.json ./
+COPY tsconfig.json ./
+COPY tsconfig.base.json ../tsconfig.base.json
+COPY src ./src
+RUN npm install --no-audit --no-fund
 RUN npm run build
 
 # ---- runtime stage ----
 FROM node:20-alpine AS runtime
 ENV NODE_ENV=production
 ENV PORT=3001
-WORKDIR /app
+WORKDIR /app/api
 
-# Reinstall only production deps for the API service.
-COPY package.json package-lock.json* ./
-COPY api/package.json ./api/package.json
-COPY client/package.json ./client/package.json
+# Production deps only.
+COPY package.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
-# Copy compiled API + its package.json so Node can resolve hoisted deps.
-COPY --from=build /repo/api/dist ./api/dist
-COPY --from=build /repo/api/package.json ./api/package.json
+# Copy compiled API from the build stage.
+COPY --from=build /repo/api/dist ./dist
 
-WORKDIR /app/api
-EXPOSE 3001
-CMD ["node", "dist/index.js"]
-
-WORKDIR /app/api
-EXPOSE 3001
-CMD ["node", "dist/index.js"]
-COPY --from=build /app/client/dist ./api/public
-
-WORKDIR /app/api
 EXPOSE 3001
 CMD ["node", "dist/index.js"]

@@ -13,9 +13,16 @@ services:
     rootDir: api
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerContext: ../
     healthCheckPath: /health
     autoDeploy: true
+    buildFilter:
+      paths:
+        - api/**/*
+        - package.json
+        - tsconfig.base.json
+        - package-lock.json
+        - render.yaml
     envVars:
       - key: NODE_ENV
         value: production
