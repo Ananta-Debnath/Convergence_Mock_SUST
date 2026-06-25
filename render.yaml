@@ -37,7 +37,6 @@ services:
     runtime: static
     name: crm-ticket-sorter-client
     rootDir: client
-    plan: free
     buildCommand: npm install --no-audit --no-fund && npm run build
     staticPublishPath: ./dist
     autoDeploy: true
