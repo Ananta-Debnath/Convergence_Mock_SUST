@@ -31,7 +31,7 @@ export function createApp(): Express {
     app.use(morgan(env.NODE_ENV === "production" ? "tiny" : "dev"));
   }
 
-  app.use("/api/health", healthRouter);
+  app.use("/health", healthRouter);
   app.use("/api/sort-ticket", sortTicketRouter);
 
   // 404 for anything else
