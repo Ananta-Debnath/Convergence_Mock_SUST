@@ -5,7 +5,7 @@ import morgan from "morgan";
 
 import { env } from "./config.js";
 import { healthRouter } from "./routes/health.js";
-import { sortTicketRouter } from "./routes/sortTicket";
+import { sortTicketRouter } from "./routes/sortTicket.js";
 
 export function createApp(): Express {
   const app = express();

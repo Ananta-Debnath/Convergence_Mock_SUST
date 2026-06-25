@@ -1,10 +1,10 @@
 import { Router, type Request, type Response, type NextFunction } from "express";
 
 import { env } from "../config.js";
-import { classify } from "../lib/classifier";
-import { maybeRefine } from "../lib/llm";
-import { decideRouting } from "../lib/routing";
-import { buildSummary, safetyScrub } from "../lib/summarizer";
+import { classify } from "../lib/classifier.js";
+import { maybeRefine } from "../lib/llm.js";
+import { decideRouting } from "../lib/routing.js";
+import { buildSummary, safetyScrub } from "../lib/summarizer.js";
 import { SortTicketRequestSchema, type SortTicketResponse } from "../lib/schemas.js";
 
 export const sortTicketRouter: Router = Router();
