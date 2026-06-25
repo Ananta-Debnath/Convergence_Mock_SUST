@@ -6,7 +6,7 @@ import type { SortTicketRequest, SortTicketResponse } from "./types";
 // otherwise the static site would POST to itself and 404.
 const API_BASE =
   (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/+$/, "") ?? "";
-const API_PATH = `${API_BASE}/api/sort-ticket`;
+const API_PATH = `${API_BASE}/sort-ticket`;
 
 const SAMPLES: Array<{ label: string; req: SortTicketRequest }> = [
   {
