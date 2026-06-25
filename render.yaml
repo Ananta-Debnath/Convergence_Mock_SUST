@@ -1,0 +1,55 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# Deploys both halves of the SUST CRM Triage demo:
+#   - `sust-crm-triage-api`  : Express backend (uses ./backend/Dockerfile)
+#   - `sust-crm-triage-web`  : Static React/Vite build (Vite outDir = dist)
+#
+# On Render, the static site's URL is known at deploy time, so the API's
+# CORS policy (it already allows `cors()`) plus the frontend's
+# `VITE_API_BASE` keep everything wired together.
+
+services:
+  - type: web
+    name: sust-crm-triage-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      # Keep the optional LLM fallback disabled in mock/demo deploys.
+      - key: LLM_PROVIDER
+        value: none
+      # Tighten CORS to the deployed frontend origin. Replace with the
+      # real Render URL after the static site first deploys, or use a
+      # wildcard while iterating.
+      - key: CORS_ORIGIN
+        value: https://sust-crm-triage-web.onrender.com
+
+  - type: static
+    name: sust-crm-triage-web
+    rootDir: frontend
+    plan: free
+    region: oregon
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    autoDeploy: true
+    headers:
+      # SPA fallback so client-side routes always return index.html.
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    envVars:
+      # Build-time: tells Vite where the live API lives.
+      # Render resolves `*.onrender.com` service hostnames.
+      - key: VITE_API_BASE
+        value: https://sust-crm-triage-api.onrender.com/api

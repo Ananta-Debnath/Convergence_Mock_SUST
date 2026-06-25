@@ -1,1 +1,17 @@
-.puku
+# Repo-root ignore: backend lives in backend/, frontend in frontend/.
+# Each subproject has its own .gitignore for its specific paths.
+node_modules/
+*.log
+.DS_Store
+.vscode/
+.idea/
+coverage/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.nyc_output/
+dist/
+build/

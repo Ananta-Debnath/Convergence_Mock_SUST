@@ -1,0 +1,31 @@
+{
+  "name": "sust-crm-triage-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Node/Express HTTP service that classifies CRM tickets for the SUST CSE Carnival 2026 QueueStorm mock round.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "eval": "node scripts/eval.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pino": "^9.3.2",
+    "pino-http": "^10.2.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0",
+    "vitest": "^2.0.5"
+  }
+}
