@@ -33,7 +33,8 @@ services:
       - key: LLM_TIMEOUT_MS
         value: "8000"
 
-  - type: static_site
+  - type: web
+    runtime: static
     name: crm-ticket-sorter-client
     rootDir: client
     plan: free
