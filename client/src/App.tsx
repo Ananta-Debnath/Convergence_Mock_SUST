@@ -133,28 +133,19 @@ export default function App() {
           onSubmit={submit}
           className="rounded-2xl bg-slate-800 p-6 shadow-lg ring-1 ring-slate-700"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="block text-xs font-medium text-slate-300">Channel</span>
-              <select
-                value={channel}
-                onChange={(e) => setChannel(e.target.value as SortTicketRequest["channel"])}
-                className="mt-1 w-full rounded-md border-slate-600 bg-slate-800 text-slate-100 text-sm shadow-sm focus:border-brand-500 focus:ring-brand-500"
-              >
-                <option value="app">app</option>
-                <option value="sms">sms</option>
-                <option value="call_center">call_center</option>
-                <option value="merchant_portal">merchant_portal</option>
-              </select>
-            </label>
-            <label className="block">
-              <span className="block text-xs font-medium text-slate-300">Locale (auto)</span>
-              <div className="mt-1 flex h-[38px] items-center rounded-md border border-slate-600 bg-slate-800 px-3 text-sm text-slate-200">
-                <span className="font-mono">{detectLocale(message)}</span>
-                <span className="ml-2 text-xs text-slate-400">detected from message</span>
-              </div>
-            </label>
-          </div>
+          <label className="block">
+            <span className="block text-xs font-medium text-slate-300">Channel</span>
+            <select
+              value={channel}
+              onChange={(e) => setChannel(e.target.value as SortTicketRequest["channel"])}
+              className="mt-1 w-48 rounded-md border-2 border-slate-600 outline outline-1 outline-slate-500/30 bg-slate-800 px-2 py-2 text-slate-100 text-sm shadow-sm transition-colors hover:border-slate-400 hover:outline-slate-400/40 focus-visible:border-brand-500 focus-visible:outline-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/60"
+            >
+              <option value="app">app</option>
+              <option value="sms">sms</option>
+              <option value="call_center">call_center</option>
+              <option value="merchant_portal">merchant_portal</option>
+            </select>
+          </label>
 
           <label className="mt-4 block">
             <span className="block text-xs font-medium text-slate-300">Message</span>
@@ -162,7 +153,7 @@ export default function App() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={5}
-              className="mt-1 w-full rounded-md border-slate-600 bg-slate-800 text-slate-100 text-sm shadow-sm focus:border-brand-500 focus:ring-brand-500"
+              className="mt-1 w-full rounded-md border-2 border-slate-600 outline outline-1 outline-slate-500/30 bg-slate-800 px-2 py-2 text-slate-100 text-sm shadow-sm transition-colors hover:border-slate-400 hover:outline-slate-400/40 focus-visible:border-brand-500 focus-visible:outline-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/60"
               required
             />
           </label>
