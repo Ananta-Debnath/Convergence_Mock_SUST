@@ -32,7 +32,7 @@ export function createApp(): Express {
   }
 
   app.use("/health", healthRouter);
-  app.use("/api/sort-ticket", sortTicketRouter);
+  app.use("/sort-ticket", sortTicketRouter);
 
   // 404 for anything else
   app.use((_req, res) => {
