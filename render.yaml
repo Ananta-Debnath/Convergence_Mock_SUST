@@ -1,0 +1,46 @@
+# Render Blueprint — deploy with `render blueprint launch` or by connecting
+# this repo on render.com and choosing "Blueprint".
+#
+# Two services:
+#   1. crm-ticket-sorter-api      — Express API (Docker), exposes /health and /sort-ticket.
+#   2. crm-ticket-sorter-client   — static Vite/React build served by Render's
+#                                   static-site runtime; talks to the API via VITE_API_BASE.
+
+services:
+  - type: web
+    name: crm-ticket-sorter-api
+    runtime: docker
+    rootDir: api
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3001"
+      - key: CLIENT_ORIGIN
+        # Will be set to the client service's onrender.com URL after first deploy.
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-1.5-flash
+      - key: CONFIDENCE_FLOOR
+        value: "0.5"
+      - key: LLM_TIMEOUT_MS
+        value: "8000"
+
+  - type: static_site
+    name: crm-ticket-sorter-client
+    rootDir: client
+    plan: free
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    staticPublishPath: ./dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_BASE
+        # Replace with the live API URL after the API service is up.
+        value: https://crm-ticket-sorter-api.onrender.com
